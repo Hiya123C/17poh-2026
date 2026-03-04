@@ -1,35 +1,156 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useRef, useEffect } from 'react'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import pinkHeart from './assets/pink-heart.svg'
+import whiteHeart from './assets/white-heart.svg'
+import blackHeart from './assets/black-heart.svg'
+import star from './assets/star.svg'
+import bgMusic from './assets/audio/bday-bossa.mp3'
+import catSound from './assets/audio/meow.mp3'
+import './index.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [revealed, setRevealed] = useState(false)
+  const [drops, setDrops] = useState([])
+  const [isPlaying, setIsPlaying] = useState(false)
+  const audioRef = useRef(null)
+  const catAudioRef = useRef(null)
+
+    const handleReveal = () => {
+      setRevealed(true)
+
+      if (audioRef.current) {
+        audioRef.current.play()
+        setIsPlaying(true)
+      }
+    }
+
+    const toggleMusic = () => {
+      if (!audioRef.current) return
+
+      if (isPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play()
+      }
+
+      setIsPlaying(!isPlaying)
+    }
+
+    const playCatSound = () => {
+      if (!catAudioRef.current) return
+
+      catAudioRef.current.currentTime = 0
+      catAudioRef.current.play()
+    }
+
+    const spawnDrops = (emoji) => {
+      const newDrops = Array.from({ length: 15 }).map(() => ({
+        id: Math.random(),
+        emoji,
+        left: Math.random() * 100
+      }))
+
+      setDrops(prev => [...prev, ...newDrops])
+
+      setTimeout(() => {
+        setDrops(prev => prev.filter(d => !newDrops.includes(d)))
+      }, 3000)
+    }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="relative min-h-screen w-screen overflow-hidden bg-[var(--light-pink)]">
+      <audio ref={audioRef} src={bgMusic} loop />
+      <audio ref={catAudioRef} src={catSound} preload="auto" />
+      <div
+        className={`
+          absolute inset-0 flex flex-col items-center justify-center bg-white
+          transition-all duration-700 ease-in-out
+          ${revealed ? "opacity-0 scale-110 pointer-events-none" : "opacity-100 scale-100"}
+        `}
+      >
+        <p className='text-[var(--contrast)]'>nothing to see here....</p>
+        <img src={blackHeart} className="w-64 p-8"/>
+        <p className='text-[var(--contrast)]'>definitely DO NOT cmd + A...</p>
+        <img
+          src={whiteHeart}
+          className="w-24 cursor-pointer absolute top-6 right-6 hover:scale-110 transition"
+          onClick={handleReveal}
+
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+
+      <div
+        className={`
+          absolute inset-0 flex flex-col items-center justify-center
+          bg-[var(--light-pink)]
+          transition-all duration-700 ease-in-out
+          ${revealed ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
+        `}
+      >
+        <div className='flex justify-center gap-12 items-center'>
+          <p>porsche</p>
+          <p>•</p>
+          <p>potassium hydroxide</p>
+          <p>•</p>
+          <p>poshi</p>
+        </div>
+        <h1 className='font-[PinkPastel] text-8xl font-bold pt-20 pb-10'>P0H</h1>
+
+        <div className='flex gap-24 justify-center items-center'>
+          <img src={star} alt="click-star" className='w-28 cursor-pointer'/>
+          <img src={star} alt="click-star" className='w-36 cursor-pointer'/>
+          <img src={pinkHeart} alt="pinkie-heartie" className='w-64 cursor-pointer'/>
+          <img src={star} alt="click-star" className='w-36 cursor-pointer'/>
+          <img src={star} alt="click-star" className='w-28 cursor-pointer'/>
+        </div>
+
+        <h2 className='font-[PinkPastel] text-3xl pt-10'>21 Mar 2026</h2>
+        <h2 className='font-[PinkPastel] text-2xl pt-4'>Saturday</h2>
+
+        {/*absolute icons*/}
+        <button
+          onClick={toggleMusic}
+          className="absolute top-6 right-6 text-3xl text-[var(--main-pink)] hover:scale-105 transition cursor-pointer"
+        >
+          <span className="material-symbols-outlined">
+            {isPlaying ? "music_note" : "music_off"}
+          </span>
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+        <p className='absolute top-6 left-6 font-[PinkPastel] text-[var(--main-pink)] font-bold'>happy bday</p>
+        
+        <DotLottieReact
+          onClick={playCatSound}
+          className='absolute bottom-0 left-0 w-80 cursor-pointer'
+          src="https://lottie.host/12a09055-5c33-4c72-b0dc-93f898e622f5/8NVSH9QXzR.lottie"
+          loop
+          autoplay
+        />
+
+        <div className="absolute bottom-6 right-6 bg-[var(--shadow-pink)] backdrop-blur-md px-4 py-2 rounded-full flex gap-3 shadow-md">
+          <button onClick={() => spawnDrops("🎉")} className="text-2xl hover:scale-125 transition">🎉</button>
+          <button onClick={() => spawnDrops("⭐")} className="text-2xl hover:scale-125 transition">⭐</button>
+          <button onClick={() => spawnDrops("🎀")} className="text-2xl hover:scale-125 transition">🎀</button>
+          <button onClick={() => spawnDrops("🐱")} className="text-2xl hover:scale-125 transition">🐱</button>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      {drops.map(drop => (
+        <div
+          key={drop.id}
+          className="falling"
+          style={{ left: `${drop.left}%` }}
+        >
+          {drop.emoji}
+        </div>
+      ))}
+
+      {/* another horizontal flexbox here */}
+      {/* capsule with buttons */}
+    </div>
   )
 }
+
+
 
 export default App
