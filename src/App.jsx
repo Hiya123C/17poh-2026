@@ -4,6 +4,7 @@ import pinkHeart from './assets/pink-heart.svg'
 import whiteHeart from './assets/white-heart.svg'
 import blackHeart from './assets/black-heart.svg'
 import star from './assets/star.svg'
+import poshi from './assets/poshi.jpeg'
 import bgMusic from './assets/audio/bday-bossa.mp3'
 import catSound from './assets/audio/meow.mp3'
 import './index.css'
@@ -11,6 +12,8 @@ import './index.css'
 function App() {
   const [revealed, setRevealed] = useState(false)
   const [drops, setDrops] = useState([])
+  const [leftOpen, setLeftOpen] = useState(false)
+  const [rightOpen, setRightOpen] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef(null)
   const catAudioRef = useRef(null)
@@ -96,12 +99,44 @@ function App() {
         </div>
         <h1 className='font-[PinkPastel] text-8xl font-bold pt-20 pb-10'>P0H</h1>
 
-        <div className='flex gap-24 justify-center items-center'>
-          <img src={star} alt="click-star" className='w-28 cursor-pointer'/>
-          <img src={star} alt="click-star" className='w-36 cursor-pointer'/>
-          <img src={pinkHeart} alt="pinkie-heartie" className='w-64 cursor-pointer'/>
-          <img src={star} alt="click-star" className='w-36 cursor-pointer'/>
-          <img src={star} alt="click-star" className='w-28 cursor-pointer'/>
+        <div className='flex gap-50 justify-center items-center'>
+          <div className="relative flex items-center justify-center">
+            <img src={star} onClick={() => setLeftOpen(true)}
+              className={`
+                w-28 cursor-pointer hover:scale-110 active:scale-125 transition-all duration-700
+                ${leftOpen ? "-translate-x-40 rotate-12" : ""}
+              `}
+            />
+
+            {leftOpen && (
+              <div className="absolute left-0 bg-white shadow-xl rounded-xl p-6 w-75 envelope-open">
+                <p className="text-[var(--main-pink)]">
+                  Yo! guten morning :) idk when you're gonna find this but you should be smart enough LOL!!
+                  you is the very very good people. you is the amazing kind. very awesome.
+                  hope everything u do in ur life u enjoy. KEEP RUNNING, DONT STOP. !!!
+                  HAPPPYYY 17th BIRTHHHDAYYYYY!!!!!!!! (miao!)
+                  <br></br><br></br>-- crystal
+                </p>
+              </div>
+            )}
+          </div>
+
+          <img src={pinkHeart} alt="pinkie-heartie" className="w-64 cursor-pointer heartbeat"/>
+          
+          <div className="relative flex items-center justify-center">
+            <img src={star} onClick={() => setRightOpen(true)}
+              className={`
+                w-28 cursor-pointer hover:scale-110 active:scale-125 transition-all duration-700
+                ${rightOpen ? "translate-x-40 -rotate-12" : ""}
+              `}
+            />
+
+            {rightOpen && (
+              <div className="absolute right-0 w-60 shadow-xl rounded-xl flex gap-3 animate-fade">
+                <img src={poshi} className="w-full rounded-lg"/>
+              </div>
+            )}
+          </div>
         </div>
 
         <h2 className='font-[PinkPastel] text-3xl pt-10'>21 Mar 2026</h2>
@@ -144,9 +179,6 @@ function App() {
           {drop.emoji}
         </div>
       ))}
-
-      {/* another horizontal flexbox here */}
-      {/* capsule with buttons */}
     </div>
   )
 }
