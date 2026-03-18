@@ -18,6 +18,19 @@ function App() {
   const audioRef = useRef(null)
   const catAudioRef = useRef(null)
 
+  // pw variables
+  const [entered, setEntered] = useState(false)
+  const [input, setInput] = useState("")
+  const PASSWORD = "17pinkposhi"
+
+    const handlePassword = () => {
+      if (input.toLowerCase() === PASSWORD.toLowerCase()) {
+        setEntered(true)
+      } else {
+        alert("hmmmm... use your brain :)")
+      }
+    }
+
     const handleReveal = () => {
       setRevealed(true)
 
@@ -64,16 +77,54 @@ function App() {
     <div className="relative min-h-screen w-screen overflow-hidden bg-[var(--light-pink)]">
       <audio ref={audioRef} src={bgMusic} loop />
       <audio ref={catAudioRef} src={catSound} preload="auto" />
+      {/* PASSWORD SCREEN */}
+      <div
+        className={`
+          absolute inset-0 flex flex-col items-center justify-center
+          bg-[var(--light-pink)]
+          transition-all duration-700
+          ${entered ? "opacity-0 scale-110 pointer-events-none" : "opacity-100"}
+        `}
+      >
+        <h1 className="text-4xl text-[var(--main-pink)] mb-6">
+          LOCKED 🔒
+        </h1>
+
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="enter password..."
+          className="px-4 py-2 rounded-full text-center outline-none border border-pink-300"
+        />
+
+        <button
+          onClick={handlePassword}
+          className="mt-4 px-6 py-2 bg-[var(--main-pink)] text-white rounded-full hover:scale-105 transition"
+        >
+          unlock 🔐
+        </button>
+        <br></br>
+        <ol className="list-decimal list-inside">
+          <li>age</li>
+          <li>colour</li>
+          <li>name (5 letters)</li>
+          <li>lowercase</li>
+          <li>no spaces</li>
+        </ol>
+      </div>
+      {/* THE ORIGINAL WHITE SCREEN */}
       <div
         className={`
           absolute inset-0 flex flex-col items-center justify-center bg-white
           transition-all duration-700 ease-in-out
-          ${revealed ? "opacity-0 scale-110 pointer-events-none" : "opacity-100 scale-100"}
+          ${entered ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
         `}
       >
-        <p className='text-[var(--contrast)]'>nothing to see here....</p>
+        <p className='text-[var(--system)]'>SIKKKEEEEEEEEEE</p>
+        <p className='text-[var(--system)]'>nothing to see here....</p>
         <img src={blackHeart} className="w-64 p-8"/>
-        <p className='text-[var(--contrast)]'>definitely DO NOT cmd + A...</p>
+        <p className='text-[var(--contrast)]'>hmmmm... I wonder what cmd + A do...</p>
         <img
           src={whiteHeart}
           className="w-24 cursor-pointer absolute top-6 right-6 hover:scale-110 transition"
@@ -82,6 +133,7 @@ function App() {
         />
       </div>
 
+      {/* BIG PINK REVEAL!!!! */}
       <div
         className={`
           absolute inset-0 flex flex-col items-center justify-center
@@ -113,7 +165,7 @@ function App() {
                 <p className="text-[var(--main-pink)]">
                   Yo! guten morning :) idk when you're gonna find this but you should be smart enough LOL!!
                   you is the very very good people. you is the amazing kind. very awesome.
-                  hope everything u do in ur life u enjoy. KEEP RUNNING, DONT STOP. !!!
+                  hope everything u do in ur life u enjoy. <br></br><b>inserts 100000 wishes </b>
                   HAPPPYYY 17th BIRTHHHDAYYYYY!!!!!!!! (miao!)
                   <br></br><br></br>-- crystal
                 </p>
