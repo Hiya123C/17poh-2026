@@ -113,7 +113,7 @@ function App() {
           <li>no spaces</li>
         </ol>
       </div>
-      {/* THE ORIGINAL WHITE SCREEN */}
+      {/* THE SIKEEE WHITE SCREEN */}
       <div
         className={`
           absolute inset-0 flex flex-col items-center justify-center bg-white
@@ -124,6 +124,7 @@ function App() {
         <p className='text-[var(--system)]'>SIKKKEEEEEEEEEE</p>
         <p className='text-[var(--system)]'>nothing to see here....</p>
         <img src={blackHeart} className="w-64 p-8"/>
+        <p className='text-[var(--system)]'>Today's just another tuition day man</p>
         <p className='text-[var(--contrast)]'>hmmmm... I wonder what cmd + A do...</p>
         <img
           src={whiteHeart}
